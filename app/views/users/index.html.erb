@@ -1,0 +1,99 @@
+<h1>Listing Users</h1>
+<br />
+<table class="table table-striped table-bordered table-condensed">
+  <tr>
+	<th></th>
+    <th>Username</th>
+    <th>Phone</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<form name="conference">
+
+<% @users.each do |user| %>
+  <tr>
+	<td>
+		<input type="checkbox" id="checkuser_<%=user.id%>">
+		<input type="hidden" id="phone_<%=user.id%>" value="<%= user.phone %>">
+	</td>
+    <td><%= user.username %></td>
+    <td><%= user.phone %></td>
+    <td><%= link_to 'Show', user %></td>
+    <td><%= link_to 'Edit', edit_user_path(user) %></td>
+    <td><%= link_to 'Destroy', user, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+</form>
+
+<br />
+
+<input id="startconf" type="button" value="Start Conference" class="btn btn-success"> &nbsp;
+<%= link_to 'Add User', new_user_path %>
+<p>
+	<div id="call_status" style="display:none;">
+		<%=image_tag "ajaxspinner.gif"%>
+	</div>
+</p>
+
+<script>
+	var phone_number,user_name
+	jQuery(document).ready(function() {
+		$("input#startconf").click(function(){
+			
+			phone_number = "";
+			// $("#user_1").attr('checked') == "checked" // or undefined
+			
+			var phonecount = 0
+			$('input[type=checkbox]').each(function () {
+	           if (this.checked) {
+					phonecount = phonecount + 1;
+					var word=$(this).attr('id').split("_")
+					phone_number = phone_number + $("#phone_" + word[1]).val() + ","
+	               console.log($("#phone_" + word[1]).val());
+	               console.log('count ' + phonecount );
+				}
+			});
+				
+		  if(phonecount==0){
+		    console.log("No one selected to call");
+		    $.gritter.add({
+		      title: "No one selected to call",
+		      text: "Please select people to call<br />(including yourself)",
+		      image: 'assets/fail.png'
+		    });
+		  }else{
+			$("#call_status").show();
+		    $.ajax({
+		      url: '/startcalls',
+		      type: 'GET',
+		      dataType: 'json',
+		      data: "phone_number="+phone_number,
+		      complete: function(xhr, textStatus) {
+		        console.log(xhr.responseText);
+				$("#call_status").hide();
+		
+		        $.gritter.add({
+		          title: "Calling Now...",
+		          text: "Dialing the following number(s): "+phone_number,
+		          image: 'assets/success.png'
+		        });
+		        $("td#the_winner").hide();
+		      },
+		      error: function(xhr, textStatus, errorThrown) {
+		        console.log("oh shit");
+		        console.log(xhr);
+		          $.gritter.add({
+		            title: "Error",
+		            text: "oops, something bad happened",
+		            image: 'assets/fail.png'
+		          });
+		      }
+		    });
+		  }
+		});
+	});
+</script>
