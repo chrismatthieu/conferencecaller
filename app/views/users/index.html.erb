@@ -57,7 +57,7 @@
 	               console.log('count ' + phonecount );
 				}
 			});
-				
+							
 		  if(phonecount==0){
 		    console.log("No one selected to call");
 		    $.gritter.add({
@@ -67,6 +67,7 @@
 		    });
 		  }else{
 			$("#call_status").show();
+			phone_number = phone_number.slice(0, -1)			
 		    $.ajax({
 		      url: '/startcalls',
 		      type: 'GET',

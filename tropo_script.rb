@@ -28,7 +28,7 @@ begin
       log "@"*5 + "Calling " + x
       
       # event = call "tel:+" + numbers[count]
-      call 'tel:+'+ x, {
+      call 'tel:+' + x, {
             :onAnswer=>lambda{|event|
                 log "@"*5+"Invitee answered join conference"
                 newCall = event.value
