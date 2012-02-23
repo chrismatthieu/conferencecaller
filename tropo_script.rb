@@ -27,6 +27,7 @@ $phones.split(",").each do |x|
                    :timeout  => 15.0,
                    :onChoice => lambda { |invitee|
                       if invitee.value == "1"
+                        newCall.say "http://conferencecaller.herokuapp.com/beep.mp3"
                         #add to conf
                         newCall.conference(conferenceID, conferenceOptions)
                       else
