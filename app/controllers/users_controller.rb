@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     phonenumbers = params[:phone_number]
     phonenumbers = phonenumbers.gsub("-","").gsub("(","").gsub(")","").gsub(" ","")
     
-    response = RestClient.get "http://api.tropo.com/1.0/sessions?action=create&token=0e0a2a5742a75c4eacdbe6bb2ea1bebde01102c0955ff913bdee6b9a3ed5039b34fee05bc42b68f745818848&phones=#{phonenumbers}}"
+    response = RestClient.get "http://api.tropo.com/1.0/sessions?action=create&token=0e0a2a5742a75c4eacdbe6bb2ea1bebde01102c0955ff913bdee6b9a3ed5039b34fee05bc42b68f745818848&phones=#{phonenumbers}"
     
     respond_to do |format|
       format.html # index.html.erb
