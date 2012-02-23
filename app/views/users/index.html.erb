@@ -1,4 +1,5 @@
-<h1>Listing Users</h1>
+<h1>Conference Caller</h1>
+<p>This application allows you to initiate a <a href="http://tropo.com">Tropo</a> powered conference call by clicking the user checkboxes to call and pressing the Start Conference button! </p>
 <br />
 <table class="table table-striped table-bordered table-condensed">
   <tr>
@@ -28,7 +29,8 @@
 </table>
 
 </form>
-
+<a href="#" id="checkall">Select all checkboxes</a>
+<br />
 <br />
 
 <input id="startconf" type="button" value="Start Conference" class="btn btn-success"> &nbsp;
@@ -96,5 +98,21 @@
 		    });
 		  }
 		});
+		
+		$("#checkall").click(function(){
+
+		       if ($("input[type='checkbox']").prop("checked"))
+		       {
+		           $(':checkbox').prop('checked', false);
+		           $(this).text('Select all checkboxes');
+		        }
+		     else{
+		         $(':checkbox').prop('checked', true);
+		          $(this).text('Deselect all checkboxes');
+		     }        
+		 });
+
 	});
+
+
 </script>
